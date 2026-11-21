@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="1100" viewBox="0 0 850 1100">
+  <rect width="850" height="1100" fill="#fdeaf2"/>
+  <circle cx="425" cy="480" r="90" fill="none" stroke="#e8367f" stroke-width="6"/>
+  <text x="425" y="495" font-family="Georgia,serif" font-size="80" fill="#e8367f" text-anchor="middle">✦</text>
+  <text x="425" y="640" font-family="Arial,sans-serif" font-size="26" fill="#171219" text-anchor="middle">Photo coming soon</text>
+  <text x="425" y="690" font-family="Arial,sans-serif" font-size="18" fill="#8a7b85" text-anchor="middle">Request current photos on WhatsApp</text>
+</svg>

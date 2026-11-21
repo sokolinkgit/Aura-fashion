@@ -1,20 +1,34 @@
-# EMA Agencies
+# Aura Fashion
 
-Static storefront built with HTML, CSS and JavaScript. Serve this directory with any static web server, for example:
+Women's fashion storefront for the Kenyan market — deras, kaftans, kimonos and handbags. Built with plain HTML, CSS and JavaScript. Serve this directory with any static web server, for example:
 
 ```sh
 python3 -m http.server 3000 --bind 0.0.0.0
 ```
 
-## Product imagery
+## Store details
 
-- 30 product/style listings across uniforms, professional coats, PPE and footwear.
-- 20 listings use fixed external product-only image URLs. Hero uses a fixed navy scrub flat-lay URL; About and slideshow also use product-only images.
-- No random image APIs, model photos, or people imagery are used.
-- External image sources are recorded in `assets/image-sources.json`. They are visual references, not proof of EMA stock or brand affiliation. Confirm reproduction permission with the rights holders, or replace with owned/supplier-authorized images before commercial launch.
-- External hosting can change or block hotlinking. Failed images show a neutral placeholder directing customers to WhatsApp, never an unrelated photo.
-- Local AI-generated product references are retained for the existing ten listings and slideshow. Actual photos, price, sizes, PPE specifications and availability should be confirmed before ordering.
+- **Brand:** Aura Fashion — "Dress like the moment matters."
+- **Location:** Nairobi CBD, Kenya — delivery countrywide.
+- **Contact / orders:** +254 701 900664 (calls and WhatsApp). Every product links to a pre-filled WhatsApp order message.
+- **Theme:** pink, white and black.
 
-## Logo
+## Catalogue
 
-The requested `assets/Ema Agencies Medical Wear Banner.png` has not been supplied. Once added at that exact path, the script replaces the text brand with the logo automatically.
+- 12 listings: 9 wears (deras, kaftans, kimonos) and 3 bags (handbags).
+- Filter bar above the grid: **Shop all / Wears / Bags**.
+- Product imagery lives in `assets/catalog/`. All model photographs feature Black Kenyan women — no white models are used anywhere on the site.
+- Images are a mix of AI-generated editorial photographs and web-sourced product/interior photos (downloaded from their source URLs and stored locally, so nothing breaks if a host blocks hotlinking). Sources: classyleatherbags.com, Fashion Nova, Amazon, Pinterest.
+- `assets/photo-unavailable.svg` is a graceful placeholder shown if any image fails to load; it never substitutes an unrelated photo.
+- Prices shown are "deal" prices with the original price struck through — confirm final price, sizes and availability on WhatsApp.
+
+## Honesty notes
+
+- The reviews section is a clearly labelled rotating information panel. It does not publish invented testimonials or verification badges; real customer feedback can be added once shared with permission.
+- Images are AI-generated style references, not proof of exact stocked items. The site tells customers to confirm actual photos and availability on WhatsApp before ordering.
+
+## Files
+
+- `index.html` — the whole storefront (announcement bar, hero, benefits, filterable collection, offer strip, about, reviews, contact, footer, floating WhatsApp button).
+- `styles.css` — pink/white/black theme, responsive from mobile to desktop.
+- `script.js` — mobile navigation, Wears/Bags filtering, hero slideshow, review rotator, WhatsApp link builder, image fallback.
