@@ -1,3 +1,11 @@
+// Aura Fashion storefront behaviour.
+// WhatsApp ordering: every link carries a plain-language message; we build the wa.me URL here
+// so the HTML stays readable and the message text is easy to maintain.
+const WA_BASE = 'https://wa.me/254701900664';
+document.querySelectorAll('a[data-message]').forEach(link => {
+  link.href = WA_BASE + '?text=' + encodeURIComponent(link.dataset.message);
+});
+
 const menu = document.querySelector('.menu-toggle');
 const nav = document.querySelector('nav');
 menu.addEventListener('click', () => {
@@ -10,6 +18,8 @@ nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
   nav.classList.remove('open'); menu.setAttribute('aria-expanded', 'false');
   menu.setAttribute('aria-label', 'Open navigation'); menu.textContent = '☰';
 }));
+
+// Collection filter: Wears and Bags (plus Shop all).
 document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
   document.querySelectorAll('[data-filter]').forEach(item => {
     item.classList.toggle('selected', item === button);
@@ -22,10 +32,12 @@ document.querySelectorAll('[data-filter]').forEach(button => button.addEventList
   document.querySelector('#product-count').textContent = `SHOWING ${visibleCount} PRODUCTS`;
 }));
 document.querySelectorAll('[data-filter]').forEach(button => button.setAttribute('aria-pressed', String(button.classList.contains('selected'))));
+
+// Collection highlights slideshow.
 const slides = [
-  { image: 'assets/catalog/navy-scrubs.jpg', alt: 'Navy medical scrub set — illustrative product photo', kicker: 'THE EVERYDAY ESSENTIAL', title: 'Made to move with you.' },
-  { image: 'assets/catalog/doctor-coat.jpg', alt: 'White laboratory coat — illustrative product photo', kicker: 'CONFIDENCE IN EVERY DETAIL', title: 'Professional. Practical. You.' },
-  { image: 'assets/catalog/clogs.jpg', alt: 'Navy medical clogs displayed without a model', kicker: 'FOR EVERY STEP OF YOUR SHIFT', title: 'Your next pair, covered.' }
+  { image: 'assets/catalog/dera-rose.jpg', alt: 'Rose Gold Dera — Aura Fashion model photograph', kicker: 'THE SIGNATURE DER A', title: 'Rose Gold Dera, from KSh 2,499.' },
+  { image: 'assets/catalog/kaftan-gold.jpg', alt: 'Champagne Glow Kaftan — Aura Fashion model photograph', kicker: 'GLOW-UP SEASON', title: 'Champagne Glow Kaftan, from KSh 2,899.' },
+  { image: 'assets/catalog/kimono-noir.jpg', alt: 'Noir Statement Kimono — Aura Fashion model photograph', kicker: 'THE LAYER EDIT', title: 'Noir Statement Kimono, from KSh 1,999.' }
 ];
 let slideIndex = 0;
 function nextSlide() {
@@ -39,16 +51,17 @@ function nextSlide() {
 }
 document.querySelector('#slide-next').addEventListener('click', nextSlide);
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!reducedMotion) setInterval(() => { if (!document.hidden && !document.querySelector('.slideshow').matches(':hover, :focus-within')) nextSlide(); }, 2000);
+if (!reducedMotion) setInterval(() => { if (!document.hidden && !document.querySelector('.slideshow').matches(':hover, :focus-within')) nextSlide(); }, 2600);
+
 // Publish only real, permissioned customer reviews. These are clearly labelled information cards,
 // not fabricated testimonials or claims of third-party verification.
 const reviewInfo = [
   { label: 'CUSTOMER REVIEWS', title: 'Real words belong here.', text: 'Verified customer feedback will appear here once it is available. We don’t make up reviews.' },
-  { label: 'ALREADY SHOPPED WITH EMA?', title: 'How was your experience?', text: 'Tell us about your fit, your order and your delivery. Share your honest feedback with us on WhatsApp.' },
+  { label: 'ALREADY SHOPPED WITH AURA?', title: 'How was your experience?', text: 'Tell us about your fit, your order and your delivery. Share your honest feedback with us on WhatsApp.' },
   { label: 'SHOP WITH CLARITY', title: 'Ask before you order.', text: 'Get current product photos, sizing help, prices and delivery details directly from our team.' },
-  { label: 'GOOGLE VERIFICATION', title: 'Authenticity comes first.', text: 'No Google rating is claimed here. Verified Google reviews need an authentic business listing and customer feedback.' },
-  { label: 'CHOOSING YOUR FIT', title: 'Let’s get the details right.', text: 'Message us with your preferred style and size. We’ll help you check available options before ordering.' },
-  { label: 'ORDERING FOR A TEAM?', title: 'A little planning goes a long way.', text: 'Share your team size and the items you need. Ask us for a tailored bulk quote and delivery details.' }
+  { label: 'SIZE & FIT', title: 'Let’s get the details right.', text: 'Message us your usual size and the piece you love. We’ll help you choose the right fit before you pay.' },
+  { label: 'DELIVERY', title: 'Countrywide, doorstep-friendly.', text: 'From Nairobi CBD to your town — ask us about delivery costs and timelines for your location.' },
+  { label: 'STYLING HELP', title: 'Not sure what works?', text: 'Send us the occasion and your budget. Our stylists will suggest pieces that suit you.' }
 ];
 let reviewPage = 0;
 let paused = reducedMotion;
@@ -67,6 +80,7 @@ function updatePause() { pause.textContent = paused ? '▷' : 'Ⅱ'; pause.setAt
 pause.addEventListener('click', () => { paused = !paused; updatePause(); });
 renderReviewInfo(); updatePause();
 setInterval(() => { if (!paused && !document.hidden && !document.querySelector('#reviews').matches(':hover, :focus-within')) { reviewPage = (reviewPage + 1) % 2; renderReviewInfo(); } }, 5000);
+
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) document.querySelectorAll('nav a').forEach(link => {
@@ -79,25 +93,14 @@ const observer = new IntersectionObserver(entries => {
 document.querySelectorAll('main section[id]').forEach(section => observer.observe(section));
 document.querySelector('#year').textContent = new Date().getFullYear();
 
-// Use the supplied banner as the brand as soon as the exact file is uploaded.
-// Keep the existing readable brand if the asset is absent; never show a broken logo.
-const suppliedLogo = new Image();
-suppliedLogo.onload = () => {
-  document.querySelectorAll('.brand').forEach(brand => {
-    const logo = suppliedLogo.cloneNode();
-    logo.className = 'brand-logo';
-    logo.alt = 'EMA Agencies Medical Wear';
-    brand.replaceChildren(logo);
-  });
-};
-suppliedLogo.src = 'assets/Ema%20Agencies%20Medical%20Wear%20Banner.png';
-
-// Fixed product URLs only. A failed host must never substitute an unrelated image.
+// A failed image must never break the layout or substitute an unrelated photo.
 function showProductPlaceholder(image) {
   if (image.dataset.fallbackApplied) return;
   image.dataset.fallbackApplied = 'true';
   image.src = 'assets/photo-unavailable.svg';
   image.alt = 'Product photo unavailable. Request current photos on WhatsApp.';
+  image.style.objectFit = 'contain';
+  image.style.padding = '24px';
 }
 document.querySelectorAll('main img').forEach(image => {
   image.addEventListener('error', () => showProductPlaceholder(image));
